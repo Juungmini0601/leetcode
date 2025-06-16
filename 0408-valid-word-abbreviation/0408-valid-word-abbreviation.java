@@ -1,37 +1,37 @@
 class Solution {
-    public boolean validWordAbbreviation(String word, String abbr) {
-        int wCursor = 0;
-        int aCursor = 0;
-        int num = 0;
+	public boolean validWordAbbreviation(String word, String abbr) {
+		int wordCursor = 0;
+		int abbrCursor = 0;
+		int num = 0;
 
-        while (wCursor < word.length() && aCursor < abbr.length()) {
-            // aCursor의 위치가 숫자인경우
-            if (Character.isDigit(abbr.charAt(aCursor))) {
-                int digit = abbr.charAt(aCursor) - '0';
-                // 처음 나온 숫자가 0인 경우
-                if (num == 0 && digit == 0) {
-                    return false;
-                }
+		while (wordCursor < word.length() && abbrCursor < abbr.length()) {
+			if (Character.isDigit(abbr.charAt(abbrCursor))) {
+				int digit = abbr.charAt(abbrCursor) - '0';
 
-                num = num * 10 + digit;
-                aCursor++;
-            } else {
-                wCursor += num;
-                // aCursor의 위치가 문자인 경우
-                if (wCursor >= word.length()) {
-                    return false;
-                }
+				if (num == 0 && digit == 0) {
+					return false;
+				}
 
-                if (abbr.charAt(aCursor) != word.charAt(wCursor)) {
-                    return false;
-                }
+				num = num * 10 + digit;
+				abbrCursor++;
+			} else {
+				// 숫자만큼 wordCursor 이동
+				wordCursor += num;
 
-                wCursor++;
-                aCursor++;
-                num = 0;
-            }
-        }
+				if (wordCursor >= word.length()) {
+					return false;
+				}
 
-        return wCursor + num == word.length() && aCursor == abbr.length();
-    }
+				num = 0;
+				if (word.charAt(wordCursor) != abbr.charAt(abbrCursor)) {
+					return false;
+				}
+
+				wordCursor++;
+				abbrCursor++;
+			}
+		}
+
+		return wordCursor + num == word.length() && abbrCursor == abbr.length();
+	}
 }
